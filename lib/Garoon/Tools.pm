@@ -5,7 +5,41 @@ use warnings;
 
 our $VERSION = "0.01";
 
+sub soap_request_xml {
+    my ($self,$id,$pass) = @_;
 
+    return <<"EOS";
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://www.w3.org/2003/05/soap-envelope"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+ xmlns:util_api_services="http://wsdl.cybozu.co.jp/util_api/2008">
+  <SOAP-ENV:Header>
+    <Action SOAP-ENV:mustUnderstand="1"
+     xmlns="http://schemas.xmlsoap.org/ws/2003/03/addressing">UtilLogin</Action>
+    <Security xmlns:wsu="http://schemas.xmlsoap.org/ws/2002/07/utility"
+     SOAP-ENV:mustUnderstand="1"
+     xmlns="http://schemas.xmlsoap.org/ws/2002/12/secext">
+    </Security>
+    <Timestamp SOAP-ENV:mustUnderstand="1" Id="id"
+     xmlns="http://schemas.xmlsoap.org/ws/2002/07/utility">
+      <Created>2037-08-12T14:45:00Z</Created>
+      <Expires>2037-08-12T14:45:00Z</Expires>
+    </Timestamp>
+    <Locale>jp</Locale>
+  </SOAP-ENV:Header>
+  <SOAP-ENV:Body>
+    <UtilLogin>
+      <parameters>
+        <login_name xmlns="">$id</login_name>
+        <password xmlns="">$pass</password>
+      </parameters>
+    </UtilLogin>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
+EOS
+}
 
 1;
 __END__
