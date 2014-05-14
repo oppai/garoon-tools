@@ -3,7 +3,18 @@ use 5.008005;
 use strict;
 use warnings;
 
+use HTTP::Request;
+use LWP::UserAgent;
+
+$ENV{'PERL_LWP_SSL_VERIFY_HOSTNAME'} = 0;
+
 our $VERSION = "0.01";
+
+sub new {
+    my $self = {};
+    bless $self;
+    return $self;
+};
 
 sub soap_request_xml {
     my ($self,$id,$pass) = @_;
@@ -39,7 +50,28 @@ sub soap_request_xml {
   </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>
 EOS
-}
+};
+
+sub auth {
+    my ($self,$url,$id,$pass) = @_;
+
+    my $xml = $self->soap_request_xml($id,$pass);
+    my $request = HTTP::Request->new(
+        POST => "$url/g/util_api/util/api.csp",
+        [
+            'User-Agent' => 'User-Agent: NuSOAP/0.7.3 (1.114)',
+            'Content-Type' => 'text/xml; charset=UTF-8',
+            SOAPAction => '"UtilLogin"',
+            'Content-Length' => length $xml,
+        ],
+        $xml,
+    );
+
+    my $ua = LWP::UserAgent->new;
+    $self->{_response} = $ua->request($request);
+
+    return $self->{_response}->{_msg};
+};
 
 1;
 __END__

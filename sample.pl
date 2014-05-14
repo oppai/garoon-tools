@@ -5,6 +5,10 @@ use warnings;
 use Garoon::Tools;
 use Term::ReadKey;
 
+print "Garoon's url :";
+ReadMode "normal";
+chomp( my $url = ReadLine 0 );
+
 print "Garoon's id :";
 ReadMode "normal";
 chomp( my $id = ReadLine 0 );
@@ -18,6 +22,6 @@ print "\n";
 
 my $ga = Garoon::Tools->new;
 use Data::Dumper;
-warn Dumper $ga->auth($id,$pass);
+warn Dumper $ga->auth($url,$id,$pass);
 warn Dumper $ga;
 
