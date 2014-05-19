@@ -57,7 +57,7 @@ sub auth {
 
     my $xml = $self->soap_request_xml($id,$pass);
     my $request = HTTP::Request->new(
-        POST => "$url/g/util_api/util/api.csp",
+        POST => "https://$url.cybozu.com/g/util_api/util/api.csp",
         [
             'User-Agent' => 'User-Agent: NuSOAP/0.7.3 (1.114)',
             'Content-Type' => 'text/xml; charset=UTF-8',
@@ -69,8 +69,14 @@ sub auth {
 
     my $ua = LWP::UserAgent->new;
     $self->{_response} = $ua->request($request);
+    $self->{_cookies} = $self->{_response}->{_headers}->{'set-cookie'};
 
-    return $self->{_response}->{_msg};
+    return $self->is_login;
+};
+
+sub is_login {
+    my ($self) = @_;
+    return $self->{_response}->{_msg} eq 'OK';
 };
 
 1;

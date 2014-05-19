@@ -23,5 +23,5 @@ print "\n";
 my $ga = Garoon::Tools->new;
 use Data::Dumper;
 warn Dumper $ga->auth($url,$id,$pass);
-warn Dumper $ga;
-
+warn Dumper $ga->is_login;
+warn Dumper $ga->{_cookies};
