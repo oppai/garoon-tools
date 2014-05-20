@@ -1,4 +1,4 @@
-package Garoon::Tools;
+package Garoon::Auth;
 use 5.008005;
 use strict;
 use warnings;
@@ -53,11 +53,8 @@ sub soap_request_xml {
 EOS
 };
 
-sub auth {
+sub login {
     my ($self,$domain,$id,$pass) = @_;
-
-    #TODO login for cookie
-    $self->load;
 
     my $xml = $self->soap_request_xml($id,$pass);
     my $request = HTTP::Request->new(
@@ -93,7 +90,7 @@ sub save {
     my $data = {};
     $data->{'domain'} = $self->{_domain};
     $data->{'cookies'} = $self->{'_cookies'};
-    YAML::Syck::DumpFile('config/user.yaml',$data);
+    return YAML::Syck::DumpFile('config/user.yaml',$data);
 };
 
 sub load {
@@ -101,6 +98,8 @@ sub load {
     my $data = YAML::Syck::LoadFile('config/user.yaml') or die( "$!" );
     $self->{_cookies} = $data->{cookies};
     $self->{_domain} = $data->{domain};
+
+    return $self->{_cookies} and $self->{_domain};
 };
 
 1;

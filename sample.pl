@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 
-use Garoon::Tools;
+use Garoon::Auth;
 use Term::ReadKey;
 
 print "Garoon's url :";
@@ -20,8 +20,8 @@ print "\n";
 
 #print Garoon::Tools->soap_request_xml($id,$pass);
 
-my $ga = Garoon::Tools->new;
+my $ga = Garoon::Auth->new;
 use Data::Dumper;
-warn Dumper $ga->auth($url,$id,$pass);
+warn Dumper $ga->login($url,$id,$pass);
 warn Dumper $ga->is_login;
 warn Dumper $ga->{_cookies};
