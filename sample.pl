@@ -21,6 +21,8 @@ print "\n";
 #print Garoon::Tools->soap_request_xml($id,$pass);
 
 my $ga = Garoon::Auth->new;
+$ga->load;
+
 use Data::Dumper;
 warn Dumper $ga->login($url,$id,$pass);
 warn Dumper $ga->is_login;

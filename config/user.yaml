@@ -1,0 +1,7 @@
+--- 
+cookies: 
+  - CBSESSID=8ln45ogec5cpmaunntufvh938r2r8cm0; path=/; secure; HttpOnly
+  - CBSESSID=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; path=/; secure; httponly
+  - CBSESSID=pa77iktnnriacr04hiscod8q61f5ddat; path=/; secure; HttpOnly
+  - GRN_Account=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; path=/; secure; httponly
+domain: mportal
